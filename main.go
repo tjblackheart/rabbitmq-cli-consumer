@@ -9,6 +9,7 @@ import (
 	"github.com/ricbra/rabbitmq-cli-consumer/command"
 	"github.com/ricbra/rabbitmq-cli-consumer/config"
 	"github.com/ricbra/rabbitmq-cli-consumer/consumer"
+	"github.com/tjblackheart/rabbitmq-cli-consumer/envparse"
 )
 
 func main() {
@@ -58,6 +59,9 @@ func main() {
 		if err != nil {
 			logger.Fatalf("Failed parsing configuration: %s\n", err)
 		}
+
+		// overrides config with ENV_VARS if available
+		envparse.OverrideConfig(cfg)
 
 		errLogger, err := createLogger(cfg.Logs.Error, verbose, os.Stderr)
 		if err != nil {
